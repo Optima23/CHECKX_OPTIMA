@@ -16,7 +16,7 @@ $(document).ready(function () {
 // 1000 milliseconds = 1 Second
 
 // let countDownDate = new Date("May 14, 2022 20:00:00").getTime();
-let countDownDate = new Date("Jul 14, 2022 20:00:00").getTime();
+let countDownDate = new Date("Mar 23, 2023 20:00:00").getTime();
 // let countDownDate = new Date().getTime() + (10*60*1000);
 
 

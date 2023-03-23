@@ -37,7 +37,7 @@ mongoose
   .then(() => console.warn("Database connection is done"));
 
 const usersSchema = {
-  username: String,
+  password: String,
   rollno: String,
   arr1: Array,
   temparr: Array,
@@ -77,16 +77,12 @@ app.get("/login", (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
-    const password = req.body.password;
-    const rollno = req.body.rollno;
+      const rollno = req.body.rollno;
+      const password = req.body.password;
 
-    const BASE = "http://main.pcc.events/";
-
-    const url = BASE + "centralized/" + rollno + "/" + password;
-
-    let obj, data, final;
-
-    User.find({}, (err, foundUsers) => {
+      const name = await User.findOne({ rollno: rollno });
+      
+      User.find({}, (err, foundUsers) => {
         function sortByProperty(property) {
           return function (a, b) {
             if (a[property] < b[property]) return 1;
@@ -96,67 +92,42 @@ app.post("/login", async (req, res) => {
           };
         }
         final = foundUsers.sort(sortByProperty("totalscore"));
-    });
+      });
 
-    request.post(
-        url, 
-        async function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                obj = JSON.parse(body);
-                data = JSON.parse(obj);
-
-                if (data["status"]) {
-                    const username = data["userName"];
-            
-                    const name = await User.findOne({ rollno: rollno });
-            
-                    if (!name) {
-                        // no result
-                        req.session.username = username;
-                        req.session.rollno = rollno;
-            
-                        let newuser = new User({
-                        username: username,
-                        rollno: rollno,
-                        arr1: [],
-                        temparr: [],
-                        questiondone: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        score1: Number(0),
-                        score2: Number(0),
-                        round1done: Number(0),
-                        round2done: Number(0),
-                        questionno: Number(-1),
-                        totalscore:Number(0)
-                        });
-            
-                        newuser.save();
-            
-                        return res.redirect("/logout");
-                    } else {
-                        // do something with result
-                        if (name.rollno === rollno) {
-                            req.session.username = username;
-                            req.session.rollno = rollno;
-                
-                            return res.redirect("/logout");
-                        } 
-                        else {
-                            return res.render(`${__dirname}/Client/indexfront.ejs`, {
-                                users: final,alert : true
-                              });
-                        
-                        }
-                    }
-                }else{
-                    return res.render(`${__dirname}/Client/indexfront.ejs`, {
-                        users: final,alert : true
-                      });
-                }
-            }
-    });
+      if(!name){
+        let newuser = new User({
+          password: password,
+          rollno: rollno,
+          arr1: [],
+          temparr: [],
+          questiondone: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          score1: Number(0),
+          score2: Number(0),
+          round1done: Number(0),
+          round2done: Number(0),
+          questionno: Number(-1),
+          totalscore:Number(0)
+        });
+        
+        req.session.rollno = rollno;
+        req.session.password = password;
+        
+        newuser.save();
+        return res.redirect("/logout");
+      }
+      else{
+        if(name.password == password){
+          req.session.rollno = rollno;
+          req.session.password = password;
+          return res.redirect("/logout");
+        }
+        else{
+          return res.render(`${__dirname}/Client/homepage.ejs`, {alert : true});
+        }
+      }
  } catch (error) {
     console.log(error);
-    return res.status(400).send("Invalid Username");
+    return res.status(400).send("Invalid Rollno");
   }
 });
 
@@ -183,16 +154,18 @@ app.get("/round1", async (req, res) => {
     const name = await User.findOne({ rollno: rollno });
 
     var today = new Date();
-    today.setHours(today.getHours() + 5);
-    today.setMinutes(today.getMinutes() + 30);
+    today.setHours(today.getHours());
+    today.setMinutes(today.getMinutes());
+    // today.setHours(today.getHours() + 5);
+    // today.setMinutes(today.getMinutes() + 30);
 
     // new Date("May 14, 2022 18:00:00") >= today && rollno != 205321004
-    if (new Date("Jul 14, 2022 18:00:00") >= today && rollno != 205321004) {
+    if (new Date("Mar 23, 2023 18:00:00") >= today && rollno != 205321004) {
       res.render(`${__dirname}/Client/livepage1.ejs`);
     }
 
     // (new Date("May 14 , 2022 19:30:00") <= today || name.round1done == 1) && rollno != 205321004
-    else if ((new Date("Jul 14 , 2022 19:30:00") <= today || name.round1done == 1)&& rollno != 205321004) {
+    else if ((new Date("Mar 23 , 2023 19:30:00") <= today || name.round1done == 1)&& rollno != 205321004) {
       res.render(`${__dirname}/Client/indexfrontlogout.ejs`);
     } else {
 
@@ -321,15 +294,17 @@ app.get("/round2", async (req, res) => {
     const name = await User.findOne({ rollno: rollno });
     
     var today = new Date();
-    today.setHours(today.getHours() + 5);
-    today.setMinutes(today.getMinutes() + 30);
+    // today.setHours(today.getHours() + 5);
+    // today.setMinutes(today.getMinutes() + 30);
+    today.setHours(today.getHours());
+    today.setMinutes(today.getMinutes());
     
     // new Date("May 14, 2022 19:50:00") >= today && rollno != 205321004
-    if (new Date("Jul 14, 2022 19:50:00") >= today && rollno != 205321004) {
+    if (new Date("Mar 23, 2023 19:50:00") >= today && rollno != 205321004) {
       res.render(`${__dirname}/Client/livepage2.ejs`);
     }
     // (new Date("May 14, 2022 20:00:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004
-    else if ((new Date("Jul 14, 2022 20:00:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004) {
+    else if ((new Date("Mar 23, 2023 20:00:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004) {
       res.render(`${__dirname}/Client/indexfrontlogout.ejs`);
     } else {
       name.round2done = 1;
