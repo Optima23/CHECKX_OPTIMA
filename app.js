@@ -28,7 +28,7 @@ app.use(cookieParser());
 
 mongoose
   .connect(
-    `mongodb+srv://optima-nitt-2023:optima_123@cluster0.1q6ef6t.mongodb.net/optima?retryWrites=true&w=majority`,
+    `mongodb+srv://optima-nitt-2023:optima_123_@cluster0.1q6ef6t.mongodb.net/optima?retryWrites=true&w=majority`,
 //     `mongodb+srv://avi:ag_1022000_@cluster0.y0fpc.mongodb.net/pcc-project?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
