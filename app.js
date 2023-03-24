@@ -123,7 +123,8 @@ app.post("/login", async (req, res) => {
           return res.redirect("/logout");
         }
         else{
-          return res.render(`${__dirname}/Client/indexfront.ejs`, {alert : true});
+          return res.redirect("/",{alert : true});
+          // return res.render(`${__dirname}/Client/indexfront.ejs`, {alert : true});
         }
       }
  } catch (error) {
