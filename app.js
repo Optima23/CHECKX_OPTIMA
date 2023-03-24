@@ -83,17 +83,17 @@ app.post("/login", async (req, res) => {
 
       const name = await User.findOne({ rollno: rollno });
       
-      User.find({}, (err, foundUsers) => {
-        function sortByProperty(property) {
-          return function (a, b) {
-            if (a[property] < b[property]) return 1;
-            else if (a[property] > b[property]) return -1;
+      //User.find({}, (err, foundUsers) => {
+        //function sortByProperty(property) {
+          //return function (a, b) {
+            //if (a[property] < b[property]) return 1;
+   //         else if (a[property] > b[property]) return -1;
     
-            return 0;
-          };
-        }
-        final = foundUsers.sort(sortByProperty("totalscore"));
-      });
+     //       return 0;
+       //   };
+        //}
+        //final = foundUsers.sort(sortByProperty("totalscore"));
+      //});
 
       if(!name){
         let newuser = new User({
@@ -123,7 +123,22 @@ app.post("/login", async (req, res) => {
           return res.redirect("/logout");
         }
         else{
-          return res.redirect("/",{alert : true});
+          User.find({}, (err, foundUsers) => {
+            function sortByProperty(property) {
+              return function (a, b) {
+                if (a[property] < b[property]) return 1;
+                else if (a[property] > b[property]) return -1;
+        
+                return 0;
+              };
+            }
+        
+            foundUsers.sort(sortByProperty("totalscore"));
+            res.render(`${__dirname}/Client/indexfront.ejs`, {
+              users: foundUsers, alert : true
+            });
+          });
+          // return res.redirect("/",{alert : true});
           // return res.render(`${__dirname}/Client/indexfront.ejs`, {alert : true});
         }
       }
