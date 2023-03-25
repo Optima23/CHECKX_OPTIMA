@@ -317,11 +317,11 @@ app.get("/round2", async (req, res) => {
 //     today.setMinutes(today.getMinutes());
     
     // new Date("May 14, 2022 19:50:00") >= today && rollno != 205321004
-    if (new Date("Mar 25, 2023 19:50:00") >= today && rollno != 205321004) {
+    if (new Date("Mar 25, 2023 14:10:00") >= today && rollno != 205321004) {
       res.render(`${__dirname}/Client/livepage2.ejs`);
     }
     // (new Date("May 14, 2022 20:00:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004
-    else if ((new Date("Mar 25, 2023 20:00:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004) {
+    else if ((new Date("Mar 25, 2023 14:45:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004) {
       res.render(`${__dirname}/Client/indexfrontlogout.ejs`);
     } else {
       name.round2done = 1;
