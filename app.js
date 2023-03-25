@@ -177,12 +177,12 @@ app.get("/round1", async (req, res) => {
     today.setMinutes(today.getMinutes() + 30);
 
     // new Date("May 14, 2022 18:00:00") >= today && rollno != 205321004
-    if (new Date("Mar 25, 2023 14:00:00") >= today && rollno != 205321004) {
+    if (new Date("Mar 25, 2023 14:05:00") >= today && rollno != 205321004) {
       res.render(`${__dirname}/Client/livepage1.ejs`);
     }
 
     // (new Date("May 14 , 2022 19:30:00") <= today || name.round1done == 1) && rollno != 205321004
-    else if ((new Date("Mar 25 , 2023 14:03:00") <= today || name.round1done == 1)&& rollno != 205321004) {
+    else if ((new Date("Mar 25 , 2023 14:45:00") <= today || name.round1done == 1)&& rollno != 205321004) {
       res.render(`${__dirname}/Client/indexfrontlogout.ejs`);
     } else {
 
