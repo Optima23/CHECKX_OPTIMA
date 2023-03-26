@@ -171,18 +171,18 @@ app.get("/round1", async (req, res) => {
     const name = await User.findOne({ rollno: rollno });
 
     var today = new Date();
-//     today.setHours(today.getHours() + 5);
-//     today.setMinutes(today.getMinutes() + 30);
-    today.setHours(today.getHours());
-    today.setMinutes(today.getMinutes());
+    today.setHours(today.getHours() + 5);
+    today.setMinutes(today.getMinutes() + 30);
+    // today.setHours(today.getHours());
+    // today.setMinutes(today.getMinutes());
 
     // new Date("May 14, 2022 18:00:00") >= today && rollno != 205321004
-    if (new Date("Mar 26, 2023 12:15:00") >= today && rollno != 205321004) {
+    if (new Date("Mar 26, 2023 13:00:00") >= today && rollno != 205321004) {
       res.render(`${__dirname}/Client/livepage1.ejs`);
     }
 
     // (new Date("May 14 , 2022 19:30:00") <= today || name.round1done == 1) && rollno != 205321004
-    else if ((new Date("Mar 26 , 2023 12:30:00") <= today || name.round1done == 1)&& rollno != 205321004) {
+    else if ((new Date("Mar 26 , 2023 14:30:00") <= today || name.round1done == 1)&& rollno != 205321004) {
       res.render(`${__dirname}/Client/indexfrontlogout.ejs`);
     } else {
 
@@ -311,17 +311,17 @@ app.get("/round2", async (req, res) => {
     const name = await User.findOne({ rollno: rollno });
     
     var today = new Date();
-    today.setHours(today.getHours());
-    today.setMinutes(today.getMinutes());
-//     today.setHours(today.getHours() + 5);
-//     today.setMinutes(today.getMinutes() + 30);
+  //  today.setHours(today.getHours());
+   // today.setMinutes(today.getMinutes());
+     today.setHours(today.getHours() + 5);
+     today.setMinutes(today.getMinutes() + 30);
     
     // new Date("May 14, 2022 19:50:00") >= today && rollno != 205321004
-    if (new Date("Mar 26, 2023 12:30:00") >= today && rollno != 205321004) {
+    if (new Date("Mar 26, 2023 14:45:00") >= today && rollno != 205321004) {
       res.render(`${__dirname}/Client/livepage2.ejs`);
     }
     // (new Date("May 14, 2022 20:00:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004
-    else if ((new Date("Mar 26, 2023 12:25:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004) {
+    else if ((new Date("Mar 26, 2023 15:00:00") <= today || name.round1done == 0 || name.round2done == 1)&& rollno != 205321004) {
       res.render(`${__dirname}/Client/indexfrontlogout.ejs`);
     } else {
       name.round2done = 1;
